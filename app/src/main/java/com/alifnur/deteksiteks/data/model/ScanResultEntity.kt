@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+// Membuat entity dengan nama scan_result
 @Entity(tableName = "scan_result")
 @Parcelize
 data class ScanResultEntity(

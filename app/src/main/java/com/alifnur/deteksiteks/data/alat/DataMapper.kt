@@ -3,6 +3,7 @@ package com.alifnur.deteksiteks.alat
 import com.alifnur.deteksiteks.data.domain.ScanResult
 import com.alifnur.deteksiteks.data.model.ScanResultEntity
 
+// Membuat DataMapper untuk menghubungkan data Entity dan domain
 object DataMapper {
 
     fun mapDomainToEntity(data: ScanResult): ScanResultEntity {

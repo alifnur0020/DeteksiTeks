@@ -10,10 +10,12 @@ import com.alifnur.deteksiteks.databinding.ScanResultItemBinding
 import com.alifnur.deteksiteks.utama.DetailActivity
 import com.bumptech.glide.Glide
 
+// class ini digunakan untuk memberikan program pada tampilan histori scan
 class MainAdapter: RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     private var scanResultList = ArrayList<ScanResult>()
 
+    // Memberikan program pada item view untuk menerima hasil deteksi teks serta thumbnail gambar
     class ViewHolder(private val binding: ScanResultItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(scanResult: ScanResult){
             binding.apply {
@@ -23,6 +25,7 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.ViewHolder>() {
                     .load(image)
                     .into(ivCaptured)
             }
+            // Program untuk item view untuk masuk ke layout Detail
             itemView.setOnClickListener {
                 val moveToDetail = Intent(itemView.context, DetailActivity::class.java)
                 moveToDetail.putExtra(DetailActivity.EXTRA_ENTITY, scanResult)

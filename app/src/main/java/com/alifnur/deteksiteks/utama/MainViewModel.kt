@@ -10,23 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+//Membuat Class ViewModel
 @HiltViewModel
 class MainViewModel @Inject constructor(private val scannerUseCase: ScannerUseCase) : ViewModel() {
-
-//    private val selectedScanResultId = MutableLiveData<Int>()
-//
-//    fun setSelectedId(id: Int){
-//        this.selectedScanResultId.value = id
-//    }
-//
-//    var scanResultDetail: LiveData<ScanResult> =
-//        Transformations.switchMap(selectedScanResultId) { id ->
-//            scannerUseCase.getScanResultItem(id).asLiveData()
-//        }
-
-//    fun getScanResultItem(id: Int): LiveData<ScanResult>{
-//        return scannerUseCase.getScanResultItem(id).asLiveData()
-//    }
 
     fun getScanHistoryList(): LiveData<List<ScanResult>> {
         return scannerUseCase.getScanResultList().asLiveData()

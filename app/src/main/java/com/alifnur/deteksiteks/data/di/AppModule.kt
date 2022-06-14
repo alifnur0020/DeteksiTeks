@@ -21,6 +21,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+// Mengambil data dari database yang akan dibutuhkan
+// Penggunaan @Singleton untuk dapat memanggil instance yang sama
 class AppModule {
 
     @Singleton

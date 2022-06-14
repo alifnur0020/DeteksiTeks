@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import java.io.ByteArrayOutputStream
 
+// Converter untuk mengubah Bitmap ke byteArray
 object Converter {
 
     fun toByteArray(bitmap: Bitmap): ByteArray{

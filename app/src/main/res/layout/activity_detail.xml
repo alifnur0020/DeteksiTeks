@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".utama.DetailActivity">
 
+    // Membuat ScrollView
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -19,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+             // Memberikan gambar hasil dari kamera atau galeri
             <ImageView
                 android:id="@+id/iv_captured"
                 android:layout_width="match_parent"
@@ -30,6 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/captured_image" />
 
+            // TextView untuk label hasil
             <TextView
                 android:id="@+id/label_result"
                 android:layout_width="wrap_content"
@@ -56,6 +59,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/label_result">
 
+                // Membuat edit teks untuk melakukan edit pada hasil scan
                 <EditText
                     android:id="@+id/tv_result"
                     android:layout_width="match_parent"
@@ -68,7 +72,7 @@
                     app:layout_constraintTop_toBottomOf="@id/iv_captured"
                     tools:text="Hello there" />
             </androidx.core.widget.NestedScrollView>
-
+            // memberikan tombol salin dengan mengambil icon dari drawable
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:id="@+id/btn_copy"
@@ -86,7 +90,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-
+    // memberikan tombol delete dengan mengambil icon dari drawable
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_delete"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -95,7 +99,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@android:color/transparent"
+        android:backgroundTint="@android:color/white"
         android:elevation="0dp"
         android:enabled="false"
         android:text="@string/delete"
@@ -104,11 +108,11 @@
         android:insetTop="0dp"
         app:rippleColor="#33AAAAAA"
         app:strokeWidth="2dp"
-        app:strokeColor="@android:color/transparent"
-        android:textColor="@android:color/transparent"
+        app:strokeColor="@android:color/background_dark"
+        android:textColor="@android:color/background_dark"
         app:backgroundTint="@color/white"
         app:icon="@drawable/ic_delete"
-        app:iconTint="@android:color/transparent"
+        app:iconTint="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_update"
         app:layout_constraintStart_toStartOf="parent" />

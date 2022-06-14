@@ -9,11 +9,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import com.alifnur.deteksiteks.alat.Converter
 import com.alifnur.deteksiteks.data.domain.ScanResult
 import com.alifnur.deteksiteks.databinding.ActivityDetailBinding
-import com.alifnur.deteksiteks.utama.MainViewModel
-import com.alifnur.deteksiteks.alat.Converter
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,6 +32,7 @@ class DetailActivity : AppCompatActivity() {
 
         val entity = intent.getParcelableExtra<ScanResult>(EXTRA_ENTITY)
 
+        // Membuat tombol update, delete, salin tidak dapat digunakan jika entity kosong
         binding.apply {
             if (entity != null) {
                 setData(entity)
@@ -45,6 +45,7 @@ class DetailActivity : AppCompatActivity() {
                 btnCopy.isEnabled = false
             }
 
+            // Memberikan program untuk tombol salin ketika di klik
             btnCopy.setOnClickListener {
                 if (textResult == "" || textResult.isEmpty()){
                     Toast.makeText(this@DetailActivity, "Text Kosong", Toast.LENGTH_SHORT).show()
@@ -55,6 +56,8 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    // Membuat fitur salin
+    // Inisialisasi clipboard untuk CLIBOARD_SERVICE sebagai CliboardManager
     private fun Context.copyToClipboard(text: CharSequence){
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("label",text)
@@ -62,6 +65,7 @@ class DetailActivity : AppCompatActivity() {
         Toast.makeText(this, "Teks Berhasil Disalin.", Toast.LENGTH_SHORT).show()
     }
 
+    // Program yang digunakan untuk menampilkan gambar serta hasil dari deteksi teks
     private fun setData(scanResult: ScanResult) {
         binding.apply {
             textResult = scanResult.textResult
@@ -71,6 +75,7 @@ class DetailActivity : AppCompatActivity() {
                 .load(image)
                 .into(ivCaptured)
 
+            // Memberikan program untuk tombol delete ketika di klik
             btnDelete.setOnClickListener {
                 val alert: AlertDialog.Builder = AlertDialog.Builder(this@DetailActivity)
                 alert.setTitle("Hapus hasil Scan?")
@@ -89,6 +94,7 @@ class DetailActivity : AppCompatActivity() {
                 alert.show()
 
             }
+            // Memberikan program untuk tombol Simpan Update ketika di klik
             btnUpdate.setOnClickListener {
                 val newText = tvResult.text.toString()
                 val newScanResult = ScanResult(id = scanResult.id, textResult = newText, image = scanResult.image)
@@ -101,7 +107,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-
+    // Mendeklarasikan sebagai companion objek
     companion object {
         const val EXTRA_ENTITY = "extra_entity"
         const val RESULT_DELETE = 301

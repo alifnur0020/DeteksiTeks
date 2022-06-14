@@ -21,12 +21,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Memberikan program pada tombol NewScan sehingga akan pindah ke layout Scanner
         binding.apply {
             btnNewScan.setOnClickListener {
                 val intent = Intent(this@MainActivity, ScannerActivity::class.java)
                 startActivity(intent)
             }
 
+            // Deklarasi class mainAdapter
             mainAdapter = MainAdapter()
             rvScanResult.layoutManager = LinearLayoutManager(this@MainActivity)
             rvScanResult.setHasFixedSize(true)

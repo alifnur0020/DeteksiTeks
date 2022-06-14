@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+// Membuat class ScannerRepository untuk mengambil data ScanResult dari localDataSource
 class ScannerRepository @Inject constructor(private val localDataSource: LocalDataSource) :
     IScannerRepository {
     override fun getScanResultList(): Flow<List<ScanResult>> {
@@ -16,12 +17,6 @@ class ScannerRepository @Inject constructor(private val localDataSource: LocalDa
         }
 
     }
-
-//    override fun getScanResultItem(id: Int): Flow<ScanResult> {
-//        return localDataSource.getScanResultItem(id).map {
-//            DataMapper.mapEntityToDomain(it)
-//        }
-//    }
 
     override suspend fun insertScanResult(scanResult: ScanResult) {
         localDataSource.insertScanResult(DataMapper.mapDomainToEntity(scanResult))

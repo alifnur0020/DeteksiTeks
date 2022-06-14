@@ -63,15 +63,18 @@ class ScannerActivity : AppCompatActivity() {
             pictureDialog.show()
         }
 
+        // Untuk mematikan tombol salin, deteksi teks, simpan, bagikan ketika belum menerima gambar
         if (bitmapState == null){
             binding.btnCopy.isEnabled = false
             binding.btnDetectText.isEnabled = false
             binding.btnSave.isEnabled = false
+            binding.btnShare.isEnabled = false
             binding.tvResult.isEnabled = false
         } else {
             binding.btnDetectText.isEnabled = true
         }
 
+        // Memberikan program ketika tombol simpan diklik
         binding.btnSave.setOnClickListener {
             if (bitmapState == null){
                 Toast.makeText(this, "Anda belum memilih gambar.", Toast.LENGTH_SHORT).show()
@@ -80,6 +83,7 @@ class ScannerActivity : AppCompatActivity() {
             }
         }
 
+        // Memberikan program ketika tombol Deteksi teks diklik
         binding.btnDetectText.setOnClickListener {
             if (bitmapState == null){
                 Toast.makeText(this, "Anda belum memilih gambar.", Toast.LENGTH_SHORT).show()
@@ -88,6 +92,7 @@ class ScannerActivity : AppCompatActivity() {
             }
         }
 
+        // Memberikan program ketika tombol salin diklik
         binding.btnCopy.setOnClickListener {
             if (textResult == "" || textResult.isEmpty()){
                 Toast.makeText(this, "Text Kosong", Toast.LENGTH_SHORT).show()
@@ -95,6 +100,8 @@ class ScannerActivity : AppCompatActivity() {
                 copyToClipboard(textResult)
             }
         }
+
+        // Memberikan program ketika tombol bagikan diklik
         binding.btnShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
@@ -106,6 +113,7 @@ class ScannerActivity : AppCompatActivity() {
         }
     }
 
+    // Program untuk mengecek Izin Galeri
     private fun checkGalleryPermission() {
         Dexter.withContext(this).withPermission(
             android.Manifest.permission.READ_EXTERNAL_STORAGE
@@ -130,13 +138,14 @@ class ScannerActivity : AppCompatActivity() {
         }).onSameThread().check()
     }
 
+    // Program untuk mengambil gambar dari galeri
     private fun gallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
-
+    // Program untuk mengecek Izin Kamera
     private fun checkCameraPermission() {
         Dexter.withContext(this)
             .withPermissions(
@@ -161,13 +170,13 @@ class ScannerActivity : AppCompatActivity() {
             ).onSameThread().check()
     }
 
-
+    // Program untuk menjalankan Kamera
     private fun camera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, CAMERA_REQUEST_CODE)
     }
 
-
+    // Menggunakan request code dari intent camera dan intent gallery
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -196,21 +205,26 @@ class ScannerActivity : AppCompatActivity() {
         }
     }
 
+    // Membuat input gambar
     private fun imageFromBitmap(bitmap: Bitmap): InputImage{
         return InputImage.fromBitmap(bitmap, 0)
     }
 
-
+    // Program untuk menjalankan proses deteksi teks
+    // Inisialisasi recognizer digunakan untuk menginisialisasi library TextRecognizer
+    // Image akan diambil dari input gambar
     private fun detectText(bitmap: Bitmap){
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         val image = imageFromBitmap(bitmap)
 
+        // recognizer di jalankan dengan process lalu akan menampung ke dalam variabel textResult
         recognizer.process(image)
             .addOnSuccessListener {
                 binding.tvResult.setText(it.text)
                 textResult = it.text
                 binding.btnSave.isEnabled = true
                 binding.btnCopy.isEnabled = true
+                binding.btnShare.isEnabled = true
                 binding.tvResult.isEnabled = true
                 Toast.makeText(this, "Teks berhasil dideteksi", Toast.LENGTH_SHORT).show()
             }
@@ -220,6 +234,8 @@ class ScannerActivity : AppCompatActivity() {
             }
     }
 
+    // Program untuk menyimpan hasil deteksi teks
+    // Berjalan jika teks telah tertampung di textResult, hasil akan tersimpan di scan result bersama dengan gambar yang telah di convert
     private fun saveScanResult(scannedBitmap: Bitmap) {
         if (textResult.isNotEmpty() && textResult != ""){
             val newText = binding.tvResult.text.toString()
@@ -231,6 +247,7 @@ class ScannerActivity : AppCompatActivity() {
         }
     }
 
+    // Program untuk menggunakan fitur salin menggunakan clipboard
     private fun Context.copyToClipboard(text: CharSequence){
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("label",text)
@@ -238,6 +255,7 @@ class ScannerActivity : AppCompatActivity() {
         Toast.makeText(this@ScannerActivity, "Teks Berhasil Disalin.", Toast.LENGTH_SHORT).show()
     }
 
+    // Program untuk memberikan dialog output ketika belum diberikan izin kamera dan galeri
     private fun showRotationalDialogForPermission() {
         AlertDialog.Builder(this)
             .setMessage("Sepertinya anda belum memberikan izin kamera atau galeri."
@@ -261,6 +279,7 @@ class ScannerActivity : AppCompatActivity() {
             }.show()
     }
 
+    // Membuat agar tombol salin, deteksi teks, simpan hasil, bagikan hasil tidak berfungsi ketika belum menerima gambar
     override fun onResume() {
         super.onResume()
         binding.tvResult.clearFocus()
@@ -268,11 +287,13 @@ class ScannerActivity : AppCompatActivity() {
             binding.btnCopy.isEnabled = false
             binding.btnDetectText.isEnabled = false
             binding.btnSave.isEnabled = false
+            binding.btnShare.isEnabled = false
         } else {
             binding.btnDetectText.isEnabled = true
         }
     }
 
+    // Mendeklarasikan sebagai companion object, agar dapat dipanggil tanpa melalui objek
     companion object{
         private const val CAMERA_REQUEST_CODE = 1
         private const val GALLERY_REQUEST_CODE = 2

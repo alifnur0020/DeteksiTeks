@@ -4,14 +4,13 @@ import androidx.room.*
 import com.alifnur.deteksiteks.data.model.ScanResultEntity
 import kotlinx.coroutines.flow.Flow
 
+// Membuat Dao untuk me-insert, me-update, dan menghapus data
+// Dao merupakan fitur dari Room Database
 @Dao
 interface OcrDao {
 
     @Query("SELECT * FROM scan_result")
     fun getScanResults(): Flow<List<ScanResultEntity>>
-
-//    @Query("SELECT * FROM scan_result WHERE id = :id")
-//    fun getScanResultItem(id: Int): Flow<ScanResultEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertScanResult(scanResultEntity: ScanResultEntity)

@@ -1,8 +1,8 @@
 package com.alifnur.deteksiteks.data.domain
 
-import com.alifnur.deteksiteks.data.domain.ScanResult
 import kotlinx.coroutines.flow.Flow
 
+// Digunakan untuk membuat interface insert, update, remove
 interface ScannerUseCase {
 
     fun getScanResultList(): Flow<List<ScanResult>>
